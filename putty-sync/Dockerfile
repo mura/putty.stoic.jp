@@ -22,6 +22,7 @@ COPY sync.sh ./
 COPY html/ html/
 RUN mkdir -p site
 
+ENV PUTTY_URL="rsync://rsync.chiark.greenend.org.uk/ftp/users/sgtatham/putty-website-mirror/"
 ENV BUCKET_NAME=
 
 CMD ["/app/server"]

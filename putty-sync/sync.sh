@@ -1,5 +1,5 @@
 #!/bin/bash
-PUTTY_URL='rsync://rsync.chiark.greenend.org.uk/ftp/users/sgtatham/putty-website-mirror/'
+gsutil -m rsync -r "gs://${BUCKET_NAME}" site
 rsync -auH "${PUTTY_URL}" ./site/
-rsync -auH ./html/ ./site/
+rsync -au ./html/ ./site/
 gsutil -m rsync -r site "gs://${BUCKET_NAME}"

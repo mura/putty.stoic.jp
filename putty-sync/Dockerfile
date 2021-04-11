@@ -22,8 +22,6 @@ COPY sync.sh ./
 COPY html/ html/
 RUN mkdir -p site
 
-ENV GCLOUD_ACCOUNT=
-ENV GCLOUD_KEY=
 ENV BUCKET_NAME=
 
 CMD ["/app/server"]

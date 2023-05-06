@@ -27,12 +27,12 @@ jobs:
           RCLONE_CONFIG_R2_ACL: private
       - name: use rsync
         uses: GuillaumeFalourd/setup-rsync@v1.1
-        env:
-          PUTTY_URL: ${{ secrets.PUTTY_URL }}
       - name: rsync putty site
         run: | 
           rsync -auH "${PUTTY_URL}" ./site/
           rsync -au ./putty-sync/html/ ./site/
+        env:
+          PUTTY_URL: ${{ secrets.PUTTY_URL }}
       - name: deproy to R2
         uses: andreiio/rclone-action@v1
         with:

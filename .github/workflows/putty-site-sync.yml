@@ -25,10 +25,11 @@ jobs:
           RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
           RCLONE_CONFIG_R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
           RCLONE_CONFIG_R2_ACL: private
-      - name: rsync putty site
+      - name: use rsync
         uses: GuillaumeFalourd/setup-rsync@v1.1
         env:
           PUTTY_URL: ${{ secrets.PUTTY_URL }}
+      - name: rsync putty site
         run: | 
           rsync -auH "${PUTTY_URL}" ./site/
           rsync -au ./putty-sync/html/ ./site/

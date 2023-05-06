@@ -19,6 +19,7 @@ jobs:
         with:
           path: |
             ~/site
+          key: putty-site
       - run: mkdir -p ~/site
       - name: use rsync
         uses: GuillaumeFalourd/setup-rsync@v1.1

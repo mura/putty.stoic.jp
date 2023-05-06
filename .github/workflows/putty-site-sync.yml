@@ -1,13 +1,14 @@
 name: putty-site-sync
 
 on:
+  push:
   workflow_dispatch:
 
 env:
   TZ: "Asia/Tokyo"
 
 jobs:
-  putty-sync:
+  putty-site-sync:
     name: PuTTY site sync
     runs-on: ubuntu-latest
     steps:

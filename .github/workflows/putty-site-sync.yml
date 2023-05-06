@@ -30,8 +30,8 @@ jobs:
         uses: GuillaumeFalourd/setup-rsync@v1.1
       - name: rsync putty site
         run: | 
-          rsync -auH "${PUTTY_URL}" ./site/
-          rsync -au ./putty-sync/html/ ./site/
+          rsync -auH --no-times "${PUTTY_URL}" ./site/
+          rsync -au --no-times ./putty-sync/html/ ./site/
         env:
           PUTTY_URL: ${{ secrets.PUTTY_URL }}
       - name: deproy to R2

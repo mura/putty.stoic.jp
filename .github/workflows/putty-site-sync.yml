@@ -18,21 +18,21 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
-            ~/site
+            ${{ github.workspace }}/site
           key: putty-site
-      - run: mkdir -p ~/site
+      - run: mkdir -p ${{ github.workspace }}/site
       - name: use rsync
         uses: GuillaumeFalourd/setup-rsync@v1.1
       - name: rsync putty site
         run: | 
-          rsync -auH --no-perms --no-owner --no-times --omit-dir-times "${PUTTY_URL}" ~/site/
-          rsync -au --no-perms --no-owner --no-times --omit-dir-times ./putty-sync/html/ ~/site/
+          rsync -auH --no-perms --no-owner --no-times --omit-dir-times "${PUTTY_URL}" ${{ github.workspace }}/site/
+          rsync -au --no-perms --no-owner --no-times --omit-dir-times ./putty-sync/html/ ${{ github.workspace }}/site/
         env:
           PUTTY_URL: ${{ secrets.PUTTY_URL }}
       - name: deproy to R2
         uses: andreiio/rclone-action@v1
         with:
-          args: sync ~/site/ r2:putty/ -v
+          args: sync ${{ github.workspace }}/site/ r2:putty/ -v
         env:
           RCLONE_CONFIG_R2_TYPE: s3
           RCLONE_CONFIG_R2_PROVIDER: Cloudflare

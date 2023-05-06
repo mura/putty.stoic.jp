@@ -14,30 +14,24 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - run: mkdir -p site
-      - name: fetch from R2
-        uses: andreiio/rclone-action@v1
+      - name: Cache Site files
+        uses: actions/cache@v3
         with:
-          args: sync r2:putty/ ./site/ -v
-        env:
-          RCLONE_CONFIG_R2_TYPE: s3
-          RCLONE_CONFIG_R2_PROVIDER: Cloudflare
-          RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
-          RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
-          RCLONE_CONFIG_R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
-          RCLONE_CONFIG_R2_ACL: private
+          path: |
+            ~/site
+      - run: mkdir -p ~/site
       - name: use rsync
         uses: GuillaumeFalourd/setup-rsync@v1.1
       - name: rsync putty site
         run: | 
-          rsync -auH --no-times "${PUTTY_URL}" ./site/
-          rsync -au --no-times ./putty-sync/html/ ./site/
+          rsync -auH --no-perms --no-owner --no-times --omit-dir-times "${PUTTY_URL}" ~/site/
+          rsync -au --no-perms --no-owner --no-times --omit-dir-times ./putty-sync/html/ ~/site/
         env:
           PUTTY_URL: ${{ secrets.PUTTY_URL }}
       - name: deproy to R2
         uses: andreiio/rclone-action@v1
         with:
-          args: sync ./site/ r2:putty/ -v
+          args: sync ~/site/ r2:putty/ -v
         env:
           RCLONE_CONFIG_R2_TYPE: s3
           RCLONE_CONFIG_R2_PROVIDER: Cloudflare

@@ -19,7 +19,7 @@ jobs:
         uses: andreiio/rclone-action@v1
         with:
           args: sync r2:putty/ ./site/ -v
-        env: &rclone-env
+        env:
           RCLONE_CONFIG_R2_TYPE: s3
           RCLONE_CONFIG_R2_PROVIDER: Cloudflare
           RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
@@ -39,5 +39,9 @@ jobs:
         with:
           args: sync ./site/ r2:putty/ -v
         env:
-          <<: *rclone-env
-
+          RCLONE_CONFIG_R2_TYPE: s3
+          RCLONE_CONFIG_R2_PROVIDER: Cloudflare
+          RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
+          RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
+          RCLONE_CONFIG_R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
+          RCLONE_CONFIG_R2_ACL: private

@@ -1,7 +1,8 @@
 name: putty-site-sync
 
 on:
-  push:
+  schedule:
+    - cron: '10 4 * * *'
   workflow_dispatch:
 
 env:

@@ -25,8 +25,8 @@ jobs:
         uses: GuillaumeFalourd/setup-rsync@v1.1
       - name: rsync putty site
         run: | 
-          rsync -auH --no-perms --no-owner --no-times --omit-dir-times "${PUTTY_URL}" ./site/
-          rsync -au --no-perms --no-owner --no-times --omit-dir-times ./putty-sync/html/ ./site/
+          rsync -auH --no-perms --no-owner --omit-dir-times "${PUTTY_URL}" ./site/
+          rsync -au --no-perms --no-owner --omit-dir-times ./putty-sync/html/ ./site/
         env:
           PUTTY_URL: ${{ secrets.PUTTY_URL }}
       - name: deproy to R2

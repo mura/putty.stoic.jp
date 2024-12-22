@@ -25,19 +25,14 @@ jobs:
       - name: use rsync
         uses: GuillaumeFalourd/setup-rsync@v1.1
       - name: rsync putty site
-        run: | 
+        run: |
           rsync -auH --no-perms --no-owner --omit-dir-times "${PUTTY_URL}" ./site/
           rsync -au --no-perms --no-owner --omit-dir-times ./putty-sync/html/ ./site/
         env:
           PUTTY_URL: ${{ secrets.PUTTY_URL }}
       - name: deproy to R2
-        uses: andreiio/rclone-action@v1
+        uses: wei/rclone@v1
+        env:
+          RCLONE_CONF: ${{ secrets.RCLONE_CONF }}
         with:
           args: sync ./site/ r2:putty/ -v
-        env:
-          RCLONE_CONFIG_R2_TYPE: s3
-          RCLONE_CONFIG_R2_PROVIDER: Cloudflare
-          RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
-          RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
-          RCLONE_CONFIG_R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
-          RCLONE_CONFIG_R2_ACL: private
